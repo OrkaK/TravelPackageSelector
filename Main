@@ -1,0 +1,112 @@
+import java.util.Scanner;
+
+public class finalMain {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        double budget = 0;
+        boolean validBudget;
+        do {
+            System.out.println("What is your budget?: ");
+            String input = scanner.nextLine();
+            boolean isDouble = true;
+            for (int i = 0; i < input.length(); i++) {
+                char c = input.charAt(i);
+                if ((c < '0' || c > '9') && c != '.') {
+                    isDouble = false;
+                    break;
+                }
+            }
+            if (isDouble) {
+                budget = Double.parseDouble(input);
+                validBudget = true;
+            } else {
+                System.out.println("Invalid budget entered. Please enter a number: ");
+                validBudget = false;
+            }
+        } while (!validBudget);
+
+        double totalPrice;
+
+        if (budget < 500) {
+            totalPrice = printLowPackage();
+        } else if (budget < 1000) {
+            totalPrice = printMediumPackage();
+        } else {
+            totalPrice = printHighPackage();
+        }
+
+        System.out.println("Do you qualify for a discount? (yes/no)");
+        String discountResponse = scanner.next();
+
+        double discount = 0;
+        boolean validDiscountResponse = false;
+        while (!validDiscountResponse) {
+            if (discountResponse.equalsIgnoreCase("yes")) {
+                System.out.println("Please select the type of discount with the correct number: ");
+                System.out.println("1. Children (50% off)");
+                System.out.println("2. Military (20% off)");
+                System.out.println("3. Senior Citizens (30% off)");
+                String discountType = scanner.next();
+                switch (discountType) {
+                    case "1":
+                        discount = totalPrice * 0.5;
+                        validDiscountResponse = true;
+                        break;
+                    case "2":
+                        discount = totalPrice * 0.2;
+                        validDiscountResponse = true;
+                        break;
+                    case "3":
+                        discount = totalPrice * 0.3;
+                        validDiscountResponse = true;
+                        break;
+                    default:
+                        System.out.println("Invalid response. Please select a number: ");
+                        break;
+
+                }
+
+            } else if (discountResponse.equalsIgnoreCase("no")) {
+                validDiscountResponse = true;
+            } else {
+                System.out.println("Invalid Response. Please try again.");
+            }
+        }
+        System.out.println("Total Price $" + (totalPrice - discount));
+    }
+
+    public static double printLowPackage() {
+        double totalPrice = 0;
+        System.out.println("Basic Travel Package:");
+        System.out.println("Hotel: Best Western");
+        System.out.println("Economy Rental Car");
+        System.out.println("Delta Airlines");
+        totalPrice += 100;
+        totalPrice += 200;
+        return totalPrice;
+    }
+
+    public static double printMediumPackage() {
+        double totalPrice = 0;
+        System.out.println("Medium Travel Package:");
+        System.out.println("Hotel: Hilton");
+        System.out.println("Full-size sedan");
+        System.out.println("United Airlines");
+        totalPrice += 150;
+        totalPrice += 250;
+        return totalPrice;
+    }
+
+    public static double printHighPackage() {
+        double totalPrice = 0;
+        System.out.println("Premium Travel Package:");
+        System.out.println("Hotel: Hyatt");
+        System.out.println("Premium SUV");
+        System.out.println("United Airlines");
+        totalPrice += 200;
+        totalPrice += 300;
+        return 1000;
+    }
+}
